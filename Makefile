@@ -28,5 +28,6 @@ clean:
 	if exist ${CWD}bin\*.dll del ${CWD}bin\*.dll
 	if exist ${CWD}bin\*.a del ${CWD}bin\*.a
 	if exist ${CWD}bin\*.o del ${CWD}bin\*.o
-	if exist ${CWD}bin\*.exe del ${CWD}bin\*.exe
+	if exist ${CWD}bin\*.ex* del ${CWD}bin\*.ex*
 	if exist ${CWD}bin\*.txt del ${CWD}bin\*.txt
+	if exist ${CWD}bin\*.pdb del ${CWD}bin\*.pdb
