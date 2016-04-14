@@ -1,5 +1,5 @@
 *.o
-*.exe
+*.ex*
 *.dll
 *.a
 *.txt
@@ -9,6 +9,8 @@ bin/*.exe
 bin/*.dll
 bin/*.a
 bin/*.txt
+bin/*.so
+bin/*.pdb
 
 win/CsInterop/bin
 win/CsInterop/obj
