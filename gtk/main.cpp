@@ -12,10 +12,11 @@ GObject* bSave;
 static void
 get_shit(GtkWidget* parent, gpointer data)
 {
+	File file;
 	const char* filename = gtk_entry_get_text(GTK_ENTRY(tFilename));
 	const char* content = gtk_entry_get_text(GTK_ENTRY(tContent));
 	
-	writeToFile(filename, content);
+	file.writeToFile(filename, content);
 }
 
 int main(int argc, char* argv[])

@@ -1,20 +1,27 @@
 all: libfile res app
 
 libfile:
-	g++ -fPIC -c -Iinclude src/file.c -o bin/file.o
-	g++ -shared -Iinclude -o bin/libfile.so bin/file.o
-
-res:
-	glib-compile-resources gtk/res.xml --target=gtk/res.h --generate-source
-
-app:
-	g++ -c -Iinclude `pkg-config --cflags gtk+-3.0` gtk/main.cpp -o bin/main.o
-	g++ -o bin/main bin/main.o `pkg-config --libs gtk+-3.0` -Lbin -lfile
-	cp gtk/run.sh bin/run.sh
+	g++ -fPIC -c -Iinclude -o src/file.o src/file.c
+	g++ -shared -o gtk/libfile.so src/file.o
 	
+res:
+	cd gtk; \
+	glib-compile-resources res.xml --target=res.h --generate-source
+	
+app:
+	cd gtk; \
+	g++ -fPIC -c -I../include main.cpp `pkg-config --cflags gtk+-3.0`; \
+	g++ -o main main.o `pkg-config --libs gtk+-3.0` -L. -lfile
+
+test: all
+	cd gtk; \
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.; \
+	./main
+
 clean:
-	rm bin/*.o
-	rm bin/*.so
-	rm gtk/res.h
-	rm bin/main
-	rm bin/*.sh
+	if [ -e src/file.o ]; then rm src/file.o; fi
+	if [ -e gtk/lib* ]; then rm gtk/lib*; fi
+	if [ -e gtk/res.h ]; then rm gtk/res.h; fi
+	if [ -e gtk/*.o ]; then rm gtk/*.o; fi
+	if [ -e gtk/main ]; then rm gtk/main; fi
+	if [ -e gtk/*.txt ]; then rm gtk/*.txt; fi

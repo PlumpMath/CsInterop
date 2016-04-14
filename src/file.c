@@ -1,6 +1,8 @@
-#include "file.h"
+#include <file.h>
 
-void writeToFile(const char* filename, const char* content)
+File::File() {}
+
+void File::writeToFile(const char* filename, const char* content)
 {
 	std::ofstream file;
 	file.open(filename);
@@ -8,7 +10,7 @@ void writeToFile(const char* filename, const char* content)
 	file.close();
 }
 
-const char* readFromFile(const char* filename)
+const char* File::readFromFile(const char* filename)
 {
 	std::ifstream file(filename);
 	std::string line;

@@ -3,22 +3,13 @@
 
 #include <fstream>
 
-#ifdef __cplusplus
-extern "C"
+class File
 {
-#endif
-
-#ifdef EXPORT_DLL
-#define INTEROP __declspec(dllexport)
-#else
-#define INTEROP
-#endif
-
-void INTEROP writeToFile(const char*, const char*);
-const char* INTEROP readFromFile(const char*);
-
-#ifdef __cplusplus
-}
-#endif
+public:
+	File();
+	
+	void writeToFile(const char*, const char*);
+	const char* readFromFile(const char*);
+};
 
 #endif // FILE_H
