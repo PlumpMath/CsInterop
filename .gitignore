@@ -1,0 +1,14 @@
+*.o
+*.exe
+*.dll
+*.a
+*.txt
+
+bin/*.o
+bin/*.exe
+bin/*.dll
+bin/*.a
+bin/*.txt
+
+win/CsInterop/bin
+win/CsInterop/obj

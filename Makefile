@@ -19,11 +19,14 @@ test: all
 	copy /Y bin\file.dll file.dll
 
 clean:
-	rmdir /S /Q bin
-	mkdir bin
 	if exist *.o del *.o
 	if exist *.dll del *.dll
 	if exist *.exe del *.exe
 	if exist *.txt del *.txt
 	if exist ${CWD}win\CsInterop\bin rmdir /S /Q ${CWD}win\CsInterop\bin
 	if exist ${CWD}win\CsInterop\obj rmdir /S /Q ${CWD}win\CsInterop\obj
+	if exist ${CWD}bin\*.dll del ${CWD}bin\*.dll
+	if exist ${CWD}bin\*.dll del ${CWD}bin\*.a
+	if exist ${CWD}bin\*.dll del ${CWD}bin\*.o
+	if exist ${CWD}bin\*.dll del ${CWD}bin\*.exe
+	if exist ${CWD}bin\*.dll del ${CWD}bin\*.txt
