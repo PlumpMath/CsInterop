@@ -11,7 +11,7 @@ extern "C"
 #ifdef EXPORT_DLL
 #define INTEROP __declspec(dllexport)
 #else
-#define INTEROP __declspec(dllimport)
+#define INTEROP
 #endif
 
 void INTEROP writeToFile(const char*, const char*);
