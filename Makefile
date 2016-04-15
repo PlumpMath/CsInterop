@@ -5,13 +5,11 @@ libfile:
 	g++ -shared -o gtk/libfile.so src/file.o
 	
 res:
-	cd gtk; \
-	glib-compile-resources res.xml --target=res.h --generate-source
+	glib-compile-resources gtk/res.xml --target=gtk/res.h --generate-source
 	
 app:
-	cd gtk; \
-	g++ -fPIC -c -I../include main.cpp `pkg-config --cflags gtk+-3.0`; \
-	g++ -o main main.o `pkg-config --libs gtk+-3.0` -L. -lfile
+	g++ -fPIC -c -Iinclude -o gtk/main.o gtk/main.cpp `pkg-config --cflags gtk+-3.0`
+	g++ -o gtk/main gtk/main.o `pkg-config --libs gtk+-3.0` -Lgtk -lfile
 	cp gtk/main bin/main
 	cp gtk/run.sh bin/run.sh
 	cp gtk/libfile.so bin/libfile.so

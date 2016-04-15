@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
 	GObject* mSave;
 	
 	builder = gtk_builder_new();
-	gtk_builder_add_from_resource(builder, "/com/kalebklein/window.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/com/kalebklein/gtk/window.glade", NULL);
 	
 	window = gtk_builder_get_object(builder, "window");
 	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
