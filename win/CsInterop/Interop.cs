@@ -9,10 +9,10 @@ namespace CsInterop
 {
 	class Interop
 	{
-		[DllImport("file.dll")]
+		[DllImport("interop.dll")]
 		public static extern void writeToFile([MarshalAs(UnmanagedType.AnsiBStr)]string filename, [MarshalAs(UnmanagedType.AnsiBStr)]string content);
 
-		[DllImport("file.dll")]
+		[DllImport("interop.dll")]
 		public static extern IntPtr readFromFile([MarshalAs(UnmanagedType.AnsiBStr)]string filename);
 
 		public static string marshal(IntPtr ptr)

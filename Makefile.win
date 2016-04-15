@@ -7,9 +7,9 @@ LDFLAGS=/tv:4.0 /p:TargetFrameworkVersion=v4.5 /p:Platform="Any Cpu" /p:OutputPa
 all: libfile csapp
 	
 libfile:
-	g++ -c -DEXPORT_DLL src/file.c -o bin/file.o -Iinclude
-	g++ -O2 -shared -o bin/file.dll bin/file.o
-	g++ -O2 -shared -o bin/libfile.so bin/file.o
+	g++ -c -DEXPORT_DLL -Iinclude src/interop.c -o bin/interop.o
+	g++ -c -Iinclude src/file.c -o bin/file.o
+	g++ -shared -o bin/interop.dll bin/interop.o bin/file.o
 
 csapp:
 	${MSBUILD} win/CsInterop.sln ${CFLAGS} ${LDFLAGS}

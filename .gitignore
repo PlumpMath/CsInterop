@@ -14,3 +14,4 @@ bin/*.pdb
 
 win/CsInterop/bin
 win/CsInterop/obj
+win/*.suo
