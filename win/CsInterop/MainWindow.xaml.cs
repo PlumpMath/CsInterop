@@ -71,7 +71,7 @@ namespace CsInterop
 		{
 			if (tbFilename.Text.Equals(""))
 			{
-				MessageBox.Show("Cannot be empty!", "ERROR");
+				MessageBox.Show("Cannot be empty!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else
 			{
