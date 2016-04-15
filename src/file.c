@@ -4,7 +4,7 @@ File::File() {}
 
 void File::writeToFile(const char* filename, const char* content)
 {
-	std::wofstream file;
+	std::ofstream file;
 	file.open(filename);
 	file << content << "\n";
 	file.close();
