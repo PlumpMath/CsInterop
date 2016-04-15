@@ -12,6 +12,8 @@ bin/*.txt
 bin/*.so
 bin/*.pdb
 
+gtk/*~
+
 win/CsInterop/bin
 win/CsInterop/obj
 win/*.suo
