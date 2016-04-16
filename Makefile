@@ -8,8 +8,8 @@ res:
 	glib-compile-resources gtk/res.xml --target=gtk/res.h --generate-source
 	
 app:
-	g++ -fPIC -c -Iinclude -o gtk/main.o gtk/main.cpp `pkg-config --cflags gtk+-3.0`
-	g++ -o gtk/main gtk/main.o `pkg-config --libs gtk+-3.0` -Lgtk -lfile
+	g++ -fPIC -c -Iinclude -o gtk/main.o gtk/main.cpp `pkg-config --cflags gtksourceview-3.0`
+	g++ -o gtk/main gtk/main.o `pkg-config --libs gtksourceview-3.0` -Lgtk -lfile
 	cp gtk/main bin/main
 	cp gtk/run.sh bin/run.sh
 	cp gtk/libfile.so bin/libfile.so

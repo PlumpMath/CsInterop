@@ -1,6 +1,8 @@
 #include <gtk/gtk.h>
 #include <glib.h>
-#include <stdio.h>
+#include <glib/gi18n.h>
+
+#include <gtksourceview/gtksource.h>
 
 #include <file.h>
 
@@ -9,9 +11,13 @@
 GtkBuilder* builder;
 
 GtkWidget* tFilename;
-GtkWidget* tContent;
 
-GObject* bSave;
+GtkWidget* view;
+GtkWidget* scroll;
+GtkSourceBuffer *buf;
+GtkSourceLanguage* lang;
+GtkSourceLanguageManager* lm;
+
 
 gchar* get_content(GtkWidget* widget)
 {
@@ -27,14 +33,47 @@ gchar* get_content(GtkWidget* widget)
 
 void set_boxes(const char* filename)
 {
-	gchar* content;
 	gtk_entry_set_text(GTK_ENTRY(tFilename), filename);
-	
+
+	if(buf != NULL)
+	{
+		GtkTextIter start;
+		GtkTextIter end;
+		
+		gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buf), &start);
+		gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buf), &end);
+
+		gtk_text_buffer_delete(GTK_TEXT_BUFFER(buf), &start, &end);
+	}
+	else
+	{
+		buf = gtk_source_buffer_new(NULL);
+	}
+
+	char* c_type;
+	gboolean unknown;
+
+	c_type = g_content_type_guess(filename, NULL, 0, &unknown);
+	if(unknown)
+	{
+		g_free(c_type);
+		c_type = NULL;
+	}
+
+	gchar* content;
 	g_file_get_contents(filename, &content, NULL, NULL);
-	
-	GtkTextBuffer* b = gtk_text_buffer_new(NULL);
-	gtk_text_buffer_set_text(b, content, -1);
-	gtk_text_view_set_buffer(GTK_TEXT_VIEW(tContent), b);
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buf), content, -1);
+
+	lm = gtk_source_language_manager_new();
+	lang = gtk_source_language_manager_guess_language(lm, filename, c_type);
+	gtk_source_buffer_set_language(buf, lang);
+
+	view = gtk_source_view_new_with_buffer(buf);
+	gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(view), true);
+	gtk_source_view_set_auto_indent(GTK_SOURCE_VIEW(view), true);
+
+	gtk_container_add(GTK_CONTAINER(scroll), GTK_WIDGET(view));
+	gtk_widget_show_all(GTK_WIDGET(view));
 }
 
 static void
@@ -42,7 +81,7 @@ save_file(GtkWidget* parent, gpointer data)
 {
 	File file;
 	const char* filename = gtk_entry_get_text(GTK_ENTRY(tFilename));
-	gchar* content = get_content(tContent);
+	gchar* content = get_content(view);
 	
 	file.writeToFile(filename, content);
 }
@@ -52,15 +91,15 @@ open_file(GtkWidget* parent, gpointer data)
 {
 	GtkWidget *dialog;
 	GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-	
+
 	dialog = gtk_file_chooser_dialog_new("Open File",
-											NULL,
-											action,
-											"Cancel",
-											GTK_RESPONSE_CANCEL,
-											"Open",
-											GTK_RESPONSE_ACCEPT,
-											NULL);
+		NULL,
+		action,
+		_("_Cancel"),
+		GTK_RESPONSE_CANCEL,
+		_("_Open"),
+		GTK_RESPONSE_ACCEPT,
+		NULL);
 	
 	gint res = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(res == GTK_RESPONSE_ACCEPT)
@@ -90,10 +129,7 @@ int main(int argc, char* argv[])
 	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	
 	tFilename = GTK_WIDGET(gtk_builder_get_object(builder, "tFilename"));
-	tContent = GTK_WIDGET(gtk_builder_get_object(builder, "tContent"));
-	
-	bSave = gtk_builder_get_object(builder, "bSave");
-	g_signal_connect(bSave, "clicked", G_CALLBACK(save_file), NULL);
+	scroll = GTK_WIDGET(gtk_builder_get_object(builder, "scrollView"));
 	
 	mQuit = gtk_builder_get_object(builder, "menuQuit");
 	g_signal_connect(mQuit, "activate", G_CALLBACK(gtk_main_quit), NULL);
