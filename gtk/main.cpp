@@ -6,7 +6,7 @@
 
 #include <file.h>
 
-#include "res.h"
+#include "about.h"
 
 GtkBuilder* builder;
 
@@ -121,9 +121,10 @@ int main(int argc, char* argv[])
 	GObject* mOpen;
 	GObject* mQuit;
 	GObject* mSave;
+	GObject* mAbout;
 	
 	builder = gtk_builder_new();
-	gtk_builder_add_from_resource(builder, "/com/kalebklein/gtk/window.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/com/kalebklein/gtk/ui/window.ui", NULL);
 	
 	window = gtk_builder_get_object(builder, "window");
 	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
@@ -139,6 +140,9 @@ int main(int argc, char* argv[])
 	
 	mSave = gtk_builder_get_object(builder, "menuSave");
 	g_signal_connect(mSave, "activate", G_CALLBACK(save_file), NULL);
+
+	mAbout = gtk_builder_get_object(builder, "menuAbout");
+	g_signal_connect(mAbout, "activate", G_CALLBACK(open_about_dialog), NULL);
 	
 	gtk_main();
 	
