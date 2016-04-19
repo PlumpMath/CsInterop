@@ -16,7 +16,7 @@ app:
 	cp gtk/run.sh bin/run.sh
 	cp gtk/libfile.so bin/libfile.so
 
-test: all
+test:
 	cd bin; \
 	./run.sh
 
